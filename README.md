@@ -66,7 +66,18 @@ The dataset consists of traffic captures collected from multiple devices, with e
 Python scripts are provided to demonstrate example processing and analysis workflows, and can be used as a starting point for reproducing the results presented in the paper.
 
 
-### mDNS RI Analysis Script
+
+### Example Analysis Scripts
+
+This repository includes three sample Python scripts that demonstrate the analysis methodology used to investigate the Matter Rotating Device Identifier (RDI) behavior across different IoT devices.
+
+Each script corresponds to a specific Matter-enabled device category:
+
+- `Cync-Matter-Plug-New.py` — analysis of Cync Matter plug traffic patterns  
+- `Linkind-Matter-Plug-New.py` — analysis of Linkind Matter plug communication behavior  
+- `Tuya-Matter-Plug-New.py` — analysis of Tuya Matter plug traffic characteristics  
+
+These scripts provide representative examples of the broader processing pipeline used in this study, including packet extraction, RI/RDI identification, and traffic-level feature analysis. They are intended to demonstrate reproducible methodology rather than exhaustive device coverage.
 
 This repository includes a Python script for analyzing multicast DNS (mDNS) traffic within packet capture (PCAP/PCAPNG) files, with a focus on *Resource Identifier (RI)* values used in Matter device communications.
 The script uses `tshark` to extract DNS TXT records from mDNS traffic and applies regex-based parsing to identify RI fields. For each capture, it computes the set of unique RI values and their frequency of occurrence, producing a structured dataset exported as an Excel file.
@@ -74,6 +85,8 @@ In addition, the script generates a grouped bar chart that visualizes RI usage a
 
 This tool supports reproducible, empirical analysis of identifier behavior in IoT network traces, aligning with measurement methodologies used in IMC/IEEE studies.
 
+
+### Script opreation  
 
 ### RI Extraction and Analysis
 
