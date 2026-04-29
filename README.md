@@ -88,3 +88,9 @@ A grouped bar chart is generated to visualize RI distributions across traces, wi
 ### Relevance
 
 This tool enables reproducible measurement of identifier behavior in Matter mDNS traffic, supporting analysis of identifier diversity, reuse, and potential privacy implications in IoT ecosystems.
+
+## Data and Reproducibility
+
+The dataset, code, and additional materials associated with this work are publicly available on Zenodo:
+
+https://doi.org/10.5281/zenodo.19885775
