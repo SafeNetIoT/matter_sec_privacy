@@ -55,14 +55,16 @@ All data were collected in a controlled laboratory environment under identical o
 
 Total devices: 35
 
-## Data Availability
-The raw packet capture traces used in this study are available via the [PCAP Dataset]
+### Data and Reproducibility
 
-All network traces follow a consistent directory structure:
-data/<category>/<device-name>/network_traces
+The dataset, code, and additional materials associated with this work are publicly available on Zenodo:
 
+https://doi.org/10.5281/zenodo.19885775
 
-## Repository Structure
+The dataset consists of traffic captures collected from multiple devices, with each device represented by a separate `.pcap` file. The traces vary in size from approximately 85 MB to 300 MB.
+
+Python scripts are provided to demonstrate example processing and analysis workflows, and can be used as a starting point for reproducing the results presented in the paper.
+
 
 ### mDNS RI Analysis Script
 
@@ -89,8 +91,3 @@ A grouped bar chart is generated to visualize RI distributions across traces, wi
 
 This tool enables reproducible measurement of identifier behavior in Matter mDNS traffic, supporting analysis of identifier diversity, reuse, and potential privacy implications in IoT ecosystems.
 
-## Data and Reproducibility
-
-The dataset, code, and additional materials associated with this work are publicly available on Zenodo:
-
-https://doi.org/10.5281/zenodo.19885775
