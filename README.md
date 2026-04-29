@@ -59,7 +59,7 @@ Total devices: 35
 
 The dataset, code, and additional materials associated with this work are publicly available on Zenodo:
 
-https://doi.org/10.5281/zenodo.19885775
+https://doi.org/10.5281/zenodo.19893703
 
 The dataset consists of traffic captures collected from multiple devices, with each device represented by a separate `.pcap` file. The traces vary in size from approximately 85 MB to 300 MB.
 
