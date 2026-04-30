@@ -100,6 +100,69 @@ Results are exported as a structured `.xlsx` dataset containing per-trace RI val
 
 A grouped bar chart is generated to visualize RI distributions across traces, with color encoding based on RI suffixes. This highlights identifier reuse, distribution skew, and temporal variation. The figure is saved as a publication-ready image.
 
+
+
+### mDNS Frequency Analysis Scripts
+
+This directory contains four Python scripts used to analyze multicast DNS (mDNS) traffic from packet capture (PCAP) files:
+
+mdns-eightree-ip4-ip6-freq.py
+mdns-merosshub-ip4-ip6-freq.py
+mdns-sailsco1-ip4-ip6-freq.py
+mdns-sengled-ip4-ip6-freq.py
+
+All four scripts implement the same analysis pipeline and differ only in the input datasets and output naming conventions.
+
+Purpose
+
+These scripts quantify the frequency of mDNS TXT response packets over IPv4 and IPv6, as used in the measurement methodology of the paper.
+
+Methodology
+
+For each PCAP file, the scripts:
+
+Filter mDNS response packets containing TXT records using:
+IPv4: dns.flags.response == 1 && dns.txt && ip.dst == 224.0.0.251
+IPv6: dns.flags.response == 1 && dns.txt && ipv6.dst == ff02::fb
+Extract packet timestamps
+Compute per-file metrics:
+Packet count
+Trace duration
+Inter-arrival time statistics (mean, min, max)
+Packet frequency (packets/sec)
+Compute averages across all input files
+Generate summary plots:
+Stacked bar chart (IPv4 vs IPv6 packet counts)
+Frequency line plot per trace
+Inputs
+
+Each script requires manual configuration of:
+
+PCAP_PATH: directory containing PCAP files
+PCAP_FILES: list of PCAP filenames
+
+No command-line interface is provided; paths are defined within the script.
+
+Outputs
+
+For each dataset, the scripts produce:
+
+Console output with per-file and averaged statistics
+Two figures saved locally:
+<prefix>_packet_counts.png
+<prefix>_frequency.png
+Environment and Dependencies
+
+Tested with:
+
+Python 3.x
+pyshark (requires tshark installed and in PATH)
+matplotlib
+Reproducibility Notes
+The scripts process packets in a streaming manner (keep_packets=False) to reduce memory usage.
+Results depend on the correctness of PCAP timestamps and prior capture setup.
+No randomness is involved; given identical inputs, outputs are deterministic.
+The four scripts are interchangeable aside from dataset-specific parameters.
 ### Relevance
 
 This tool enables reproducible measurement of identifier behavior in Matter mDNS traffic, supporting analysis of identifier diversity, reuse, and potential privacy implications in IoT ecosystems.
