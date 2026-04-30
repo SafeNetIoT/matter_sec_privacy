@@ -57,8 +57,7 @@ Total devices: 35
 
 ### Data and Reproducibility
 
-The dataset, code, and additional materials associated with this work are publicly available on Zenodo:
-
+The dataset associated with this work is publicly available on Zenodo and includes network traffic captures from both Matter and non-Matter smart home devices:
 https://doi.org/10.5281/zenodo.19893703
 
 The dataset consists of traffic captures collected from multiple devices, with each device represented by a separate `.pcap` file. The traces vary in size from approximately 85 MB to 300 MB.
