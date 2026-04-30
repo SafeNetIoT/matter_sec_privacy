@@ -67,38 +67,91 @@ Python scripts are provided to demonstrate example processing and analysis workf
 
 
 
-### Example Analysis Scripts
+## RDI Rotation Analysis Scripts
 
-This repository includes three sample Python scripts that demonstrate the analysis methodology used to investigate the Matter Rotating Device Identifier (RDI) behavior across different IoT devices.
+This directory contains four Python scripts used to analyze Rotating Device Identifier (RDI) behaviour in mDNS traffic from Matter devices:
 
-Each script corresponds to a specific Matter-enabled device category:
+- `rdi-cync-smartplug-rotation.py`  
+- `rdi-linkind-smartplug-rotation.py`  
+- `rdi-tuya-smartplug-rotation.py`  
+- `rdi-meross-hub-rotation.py`  
 
-- `Cync-Matter-Plug-New.py` — analysis of Cync Matter plug traffic patterns  
-- `Linkind-Matter-Plug-New.py` — analysis of Linkind Matter plug communication behavior  
-- `Tuya-Matter-Plug-New.py` — analysis of Tuya Matter plug traffic characteristics  
+All four scripts implement the same analysis pipeline and differ only in the input datasets and output naming conventions.
 
-These scripts provide representative examples of the broader processing pipeline used in this study, including packet extraction, RI/RDI identification, and traffic-level feature analysis. They are intended to demonstrate reproducible methodology rather than exhaustive device coverage.
+---
 
-This repository includes a Python script for analyzing multicast DNS (mDNS) traffic within packet capture (PCAP/PCAPNG) files, with a focus on *Resource Identifier (RI)* values used in Matter device communications.
-The script uses `tshark` to extract DNS TXT records from mDNS traffic and applies regex-based parsing to identify RI fields. For each capture, it computes the set of unique RI values and their frequency of occurrence, producing a structured dataset exported as an Excel file.
-In addition, the script generates a grouped bar chart that visualizes RI usage across captures. Identifiers are color-coded using the last four hexadecimal characters, enabling clear comparison of identifier reuse and variation over time.
+### Purpose
 
-This tool supports reproducible, empirical analysis of identifier behavior in IoT network traces, aligning with measurement methodologies used in IMC/IEEE studies.
+These scripts quantify the rotation and usage patterns of RDI values (`RI=` fields) observed in mDNS TXT records, as used in the measurement methodology of the paper.
 
+---
 
-### Script opreation  
+### Methodology
 
-### RI Extraction and Analysis
+For each PCAP file, the scripts:
 
-For each PCAP trace, the script extracts RI values from mDNS DNS TXT records and computes per-trace statistics, including the set of unique RIs, their occurrence counts, and the total number of RI-bearing packets. RI values are deterministically ordered to ensure consistent indexing across traces.
-To enable cross-trace comparison, each RI is mapped to a compact key defined by its last four hexadecimal characters. These keys provide stable identifiers for grouping and visualization.
-Traces are temporally ordered using timestamps embedded in filenames, allowing analysis of RI usage over time.
+1. Extract mDNS packets containing TXT records using:
+   - Filter: `udp.port == 5353 && dns.txt`
+2. Parse TXT records to extract `RI=` values (hex-encoded identifiers)
+3. Compute per-file metrics:
+   - Number of unique RI values  
+   - Total number of packets containing RI values  
+   - Frequency of each RI value (occurrence counts)
+4. Order RI values deterministically (numeric prefix where applicable)
+5. Construct structured outputs:
+   - `RI_1, RI_2, ...` (unique identifiers)
+   - `k1, k2, ...` (corresponding packet counts)
+6. Aggregate results across traces
+7. Generate outputs:
+   - Tabular dataset (Excel)
+   - Grouped histogram of RI usage per trace
 
-### Output and Visualization
+---
 
-Results are exported as a structured `.xlsx` dataset containing per-trace RI values, frequencies, derived keys, and packet counts, supporting reproducibility and downstream analysis.
+### Inputs
 
-A grouped bar chart is generated to visualize RI distributions across traces, with color encoding based on RI suffixes. This highlights identifier reuse, distribution skew, and temporal variation. The figure is saved as a publication-ready image.
+Each script requires manual configuration of:
+
+- `PCAP_DIRS`: list of directories containing PCAP/PCAPNG files  
+
+All PCAP files in the specified directories are processed automatically.  
+No command-line interface is provided; paths are defined within the script.
+
+---
+
+### Outputs
+
+For each dataset, the scripts produce:
+
+- An Excel file (`.xlsx`) containing:
+  - Per-trace RI values and counts  
+  - Derived key suffixes (last 4 hex characters) for analysis  
+- A grouped histogram (`.png`) showing RI usage across traces  
+- Console output summarizing:
+  - Number of unique RI values per trace  
+  - Total unique RI values across all traces  
+
+---
+
+### Environment and Dependencies
+
+Tested with:
+
+- Python 3.x  
+- `tshark` (Wireshark CLI, must be installed and in PATH)  
+- `pandas`  
+- `matplotlib`  
+- `numpy`  
+
+---
+
+### Reproducibility Notes
+
+- Packet parsing is performed using `tshark` to ensure consistent extraction of DNS TXT records.  
+- RI extraction is based on regex matching of `RI=` fields within TXT payloads.  
+- Results are deterministic given identical PCAP inputs.  
+- File ordering is normalized using timestamps extracted from filenames where available.  
+- The four scripts are interchangeable aside from dataset-specific configuration.
 
 
 
